@@ -33,12 +33,17 @@ if SAVE_DIR_DEFAULT:
     except Exception:
         pass
 
-# Минимизация задержек у ffmpeg-бекенда opencv (глобально на процесс)
+# В camera_saver.py — ЗАМЕНИТЕ этот блок
 os.environ["OPENCV_FFMPEG_CAPTURE_OPTIONS"] = (
     f"rtsp_transport;{RTSP_TRANSPORT}|"
-    "fflags;nobuffer|flags;low_delay|reorder_queue_size;0|"
-    "stimeout;5000000|rw_timeout;10000000|max_delay;0"
+    "rtsp_flags;prefer_tcp|"
+    "stimeout;5000000|"        # 5s
+    "rw_timeout;15000000|"     # 15s
+    "max_delay;500000|"        # 0.5s джиттер-буфер
+    "reorder_queue_size;512|"  # дайте декодеру шанс на B-frames
+    "allowed_media_types;video"
 )
+
 
 # ===== Утилиты окружения / пути =====
 def _clean_env_val(v: str) -> str:
