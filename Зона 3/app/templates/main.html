@@ -10,19 +10,19 @@
 
       <!-- КНОПКИ-ИСПОЛНИТЕЛИ -->
       <div class="card">
-        <h2>Управление</h2>
+        <h2>Управление общее</h2>
         <div class="controls-grid controls-grid--stack">
           <!-- сохраняем id и onclick -->
             <button id="nasos" class="status-button" onclick="toggleParameter('Насос')" {% if current_user.username != 'admin' %}disabled{% endif %}>Насос</button>
             <button id="peremesh" class="status-button" onclick="toggleParameter('Перемешивание')" {% if current_user.username != 'admin' %}disabled{% endif %}>Перемешивание</button>
-            <button id="napolnit" class="status-button" onclick="toggleParameter('Наполнение')" {% if current_user.username != 'admin' %}disabled{% endif %}>Наполнение</button>
-            <button id="sliv" class="status-button" onclick="toggleParameter('Слив')" {% if current_user.username != 'admin' %}disabled{% endif %}>Слив</button>
+            <button id="napolnit" class="status-button" onclick="toggleParameter('Водяное охлаждение')" {% if current_user.username != 'admin' %}disabled{% endif %}>Водяное охлаждение</button>
+            <button id="sliv" class="status-button" onclick="toggleParameter('Увлажнитель')" {% if current_user.username != 'admin' %}disabled{% endif %}>Увлажнитель</button>
             <button id="mixing" class="status-button" onclick="toggleParameter('Растворный узел')" {% if current_user.username != 'admin' %}disabled{% endif %}>Растворный узел</button>
             <button id="mode_param" class="status-button" onclick="toggleParameter('Режим эксплуатации')" {% if current_user.username != 'admin' %}disabled{% endif %}>Режим эксплуатации</button>
         </div>
       </div>
       <div class="card">
-        <h2>Полив</h2>
+        <h2>Управление поливом</h2>
         <div class="controls-grid controls-grid--stack">
           <button id="polka1" class="status-button" onclick="toggleParameter('Полка 1')" {% if current_user.username != 'admin' %}disabled{% endif %}>Полив полка 1</button>
           <button id="polka2" class="status-button" onclick="toggleParameter('Полка 2')" {% if current_user.username != 'admin' %}disabled{% endif %}>Полив полка 2</button>
@@ -33,21 +33,24 @@
 
       <!-- СВЕТ: ЯРКОСТИ/КАНАЛЫ -->
       <div class="card">
-        <h2>Освещение</h2>
+        <h2>Управление освещением</h2>
         <div class="controls-grid controls-grid--pairs">
           <!-- Белый -->
-            <button id="svet1" class="status-button" onclick="toggleParameter('Свет 12')" {% if current_user.username != 'admin' %}disabled{% endif %}>Освещение Полка 1 и 2</button>
-            <button id="svet2" class="status-button" onclick="toggleParameter('Свет 34')" {% if current_user.username != 'admin' %}disabled{% endif %}>Освещение Полка 3 и 4</button>
+            <button id="svet1" class="status-button" onclick="toggleParameter('Свет 1')" {% if current_user.username != 'admin' %}disabled{% endif %}>Питание полка 1</button>
+            <button id="svet2" class="status-button" onclick="toggleParameter('Свет 2')" {% if current_user.username != 'admin' %}disabled{% endif %}>Питание полка 2</button>
+            <button id="svet3" class="status-button" onclick="toggleParameter('Свет 3')" {% if current_user.username != 'admin' %}disabled{% endif %}>Питание полка 3</button>
+            <button id="svet4" class="status-button" onclick="toggleParameter('Свет 4')" {% if current_user.username != 'admin' %}disabled{% endif %}>Питание полка 4</button>
+
             <div class="control-pair">
               <button id="level_1_1_white"
                       class="btn value-btn"
-                      onclick="openModal('ЯРКОСТЬ 1 БЕЛЫЙ')"
+                      onclick="openModal('ЯРКОСТЬ 1 СИНИЙ')"
                       {% if current_user.username != 'admin' %}disabled{% endif %}>0</button>
 
               <button id="chanel_1_1_white"
                       class="btn"
-                      onclick="toggleParameter('КАНАЛ 1 БЕЛЫЙ')"
-                      {% if current_user.username != 'admin' %}disabled{% endif %}>Канал 1 белый</button>
+                      onclick="toggleParameter('КАНАЛ 1 СИНИЙ')"
+                      {% if current_user.username != 'admin' %}disabled{% endif %}>Канал 1 синий</button>
             </div>
 
             <!-- Красный -->
@@ -61,6 +64,80 @@
                       class="btn"
                       onclick="toggleParameter('КАНАЛ 1 КРАСНЫЙ')"
                       {% if current_user.username != 'admin' %}disabled{% endif %}>Канал 1 красный</button>
+            </div>
+            <div class="control-pair">
+              <button id="level_1_2_white"
+                      class="btn value-btn"
+                      onclick="openModal('ЯРКОСТЬ 2 СИНИЙ')"
+                      {% if current_user.username != 'admin' %}disabled{% endif %}>0</button>
+
+              <button id="chanel_1_2_white"
+                      class="btn"
+                      onclick="toggleParameter('КАНАЛ 2 СИНИЙ')"
+                      {% if current_user.username != 'admin' %}disabled{% endif %}>Канал 2 синий</button>
+            </div>
+
+            <!-- Красный -->
+            <div class="control-pair">
+              <button id="level_1_2_red"
+                      class="btn value-btn"
+                      onclick="openModal('ЯРКОСТЬ 2 КРАСНЫЙ')"
+                      {% if current_user.username != 'admin' %}disabled{% endif %}>0</button>
+
+              <button id="chanel_1_2_red"
+                      class="btn"
+                      onclick="toggleParameter('КАНАЛ 2 КРАСНЫЙ')"
+                      {% if current_user.username != 'admin' %}disabled{% endif %}>Канал 2 красный</button>
+            </div>
+
+            <div class="control-pair">
+              <button id="level_1_3_white"
+                      class="btn value-btn"
+                      onclick="openModal('ЯРКОСТЬ 3 СИНИЙ')"
+                      {% if current_user.username != 'admin' %}disabled{% endif %}>0</button>
+
+              <button id="chanel_1_3_white"
+                      class="btn"
+                      onclick="toggleParameter('КАНАЛ 3 СИНИЙ')"
+                      {% if current_user.username != 'admin' %}disabled{% endif %}>Канал 3 синий</button>
+            </div>
+
+            <!-- Красный -->
+            <div class="control-pair">
+              <button id="level_1_3_red"
+                      class="btn value-btn"
+                      onclick="openModal('ЯРКОСТЬ 3 КРАСНЫЙ')"
+                      {% if current_user.username != 'admin' %}disabled{% endif %}>0</button>
+
+              <button id="chanel_1_3_red"
+                      class="btn"
+                      onclick="toggleParameter('КАНАЛ 3 КРАСНЫЙ')"
+                      {% if current_user.username != 'admin' %}disabled{% endif %}>Канал 3 красный</button>
+            </div>
+
+            <div class="control-pair">
+              <button id="level_1_4_white"
+                      class="btn value-btn"
+                      onclick="openModal('ЯРКОСТЬ 4 СИНИЙ')"
+                      {% if current_user.username != 'admin' %}disabled{% endif %}>0</button>
+
+              <button id="chanel_1_4_white"
+                      class="btn"
+                      onclick="toggleParameter('КАНАЛ 4 СИНИЙ')"
+                      {% if current_user.username != 'admin' %}disabled{% endif %}>Канал 4 синий</button>
+            </div>
+
+            <!-- Красный -->
+            <div class="control-pair">
+              <button id="level_1_4_red"
+                      class="btn value-btn"
+                      onclick="openModal('ЯРКОСТЬ 4 КРАСНЫЙ')"
+                      {% if current_user.username != 'admin' %}disabled{% endif %}>0</button>
+
+              <button id="chanel_1_4_red"
+                      class="btn"
+                      onclick="toggleParameter('КАНАЛ 4 КРАСНЫЙ')"
+                      {% if current_user.username != 'admin' %}disabled{% endif %}>Канал 4 красный</button>
             </div>
 
         </div>
@@ -79,6 +156,11 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div class="col-center">
+    <div class="stack">
 
       <!-- ПОКАЗАТЕЛИ / УРОВНИ -->
       <div class="card">
@@ -114,7 +196,7 @@
           <table class="table">
             <thead><tr><th>Уровень А</th><th>Состояние</th></tr></thead>
             <tbody>
-              <tr><td>Максимум</td><td><div id="level-A1" class="indicator-wrapper"><div id="indicator-level-A1" class="status-indicator"></div></div></td></tr>
+{#              <tr><td>Максимум</td><td><div id="level-A1" class="indicator-wrapper"><div id="indicator-level-A1" class="status-indicator"></div></div></td></tr>#}
               <tr><td>Минимум</td><td><div id="level-A2" class="indicator-wrapper"><div id="indicator-level-A2" class="status-indicator"></div></div></td></tr>
             </tbody>
           </table>
@@ -122,7 +204,7 @@
           <table class="table">
             <thead><tr><th>Уровень B</th><th>Состояние</th></tr></thead>
             <tbody>
-              <tr><td>Максимум</td><td><div id="level-B1" class="indicator-wrapper"><div id="indicator-level-B1" class="status-indicator"></div></div></td></tr>
+{#              <tr><td>Максимум</td><td><div id="level-B1" class="indicator-wrapper"><div id="indicator-level-B1" class="status-indicator"></div></div></td></tr>#}
               <tr><td>Минимум</td><td><div id="level-B2" class="indicator-wrapper"><div id="indicator-level-B2" class="status-indicator"></div></div></td></tr>
             </tbody>
           </table>
@@ -130,7 +212,7 @@
           <table class="table">
             <thead><tr><th>Уровень кислоты</th><th>Состояние</th></tr></thead>
             <tbody>
-              <tr><td>Максимум</td><td><div id="level-K1" class="indicator-wrapper"><div id="indicator-level-K1" class="status-indicator"></div></div></td></tr>
+{#              <tr><td>Максимум</td><td><div id="level-K1" class="indicator-wrapper"><div id="indicator-level-K1" class="status-indicator"></div></div></td></tr>#}
               <tr><td>Минимум</td><td><div id="level-K2" class="indicator-wrapper"><div id="indicator-level-K2" class="status-indicator"></div></div></td></tr>
             </tbody>
           </table>
@@ -142,173 +224,173 @@
   </div>
 
   <!-- ===== ПРАВАЯ КОЛОНКА: КАМЕРЫ (до 4 штук) ===== -->
-  <div class="col-right">
-    <div class="cameras card">
-      <h2>Камеры</h2>
-
-        <div id="camFrameModal" class="modal" style="display:none">
-          <div class="modal-content">
-            <span class="close" onclick="document.getElementById('camFrameModal').style.display='none'">&times;</span>
-            <h2>Показать кадр на дату/время</h2>
-            <input type="hidden" id="cam_frame_modal_camid" value="">
-            <div class="form-group">
-              <label for="cam_frame_dt">Дата и время</label>
-              <input type="datetime-local" id="cam_frame_dt" class="form-control">
-            </div>
-            <div class="form-group">
-              <button id="cam_frame_show" class="btn">Показать</button>
-              <a id="cam_frame_download" class="btn ghost" href="#" download>Скачать</a>
-            </div>
-          </div>
-        </div>
-        <div id="camTlModal" class="modal" style="display:none">
-          <div class="modal-content">
-            <span class="close" onclick="document.getElementById('camTlModal').style.display='none'">&times;</span>
-            <h2>Сохранить клип</h2>
-            <input type="hidden" id="cam_tl_modal_camid" value="">
-            <div class="form-group">
-              <label for="cam_tl_start">От</label>
-              <input type="datetime-local" id="cam_tl_start" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="cam_tl_end">До</label>
-              <input type="datetime-local" id="cam_tl_end" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="cam_tl_fps">FPS</label>
-              <input type="number" id="cam_tl_fps" class="form-control" min="1" max="60" value="20">
-            </div>
-            <div class="form-group">
-              <button id="cam_tl_save" class="btn">Сохранить клип</button>
-            </div>
-          </div>
-        </div>
-
-
-
-      <!-- Сетка камер 2×2 -->
-      <div class="camera-grid">
-
-        <!-- Камера 1 (твоя текущая) -->
-        <div class="camera" data-cam-name="Полка 1 (верхняя)">
-            <div class="cam-header">Полка 1 (верхняя)</div>
-          <img id="cam1_preview" class="frame" alt="Кадр камеры 1">
-
-          <div class="cam-actions">
-            <!-- обновить (последний кадр) -->
-            <button class="icon-btn tip" data-tip="Обновить" id="cam1_refresh">
-              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path stroke-width="2" d="M21 12a9 9 0 1 1-3.7-7.3M21 3v6h-6"/>
-              </svg>
-            </button>
-
-            <!-- скачать текущий (последний/выбранный) -->
-            <a class="icon-btn tip" data-tip="Скачать" id="cam1_download" href="#" download>
-              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path stroke-width="2" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
-              </svg>
-            </a>
-
-            <!-- сделать снимок -->
-            <button class="icon-btn tip" data-tip="Сделать снимок" id="cam1_capture" {% if current_user.username != 'admin' %}disabled{% endif %}>
-              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path stroke-width="2" d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3l2-3h8l2 3h3a2 2 0 0 1 2 2z"/>
-                <circle cx="12" cy="13" r="4" stroke-width="2"/>
-              </svg>
-            </button>
-
-            <!-- история (кадр на дату/время) -->
-            <button class="icon-btn tip" data-tip="История" id="cam1_history">
-              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path stroke-width="2" d="M3 12a9 9 0 1 0 9-9"/>
-                <path stroke-width="2" d="M3 3v6h6"/>
-                <path stroke-width="2" d="M12 7v5l3 3"/>
-              </svg>
-            </button>
-
-            <!-- timelapse -->
-            <button class="icon-btn tip" data-tip="Timelapse" id="cam1_timelapse">
-              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <rect x="3" y="5" width="18" height="14" rx="2" ry="2" stroke-width="2"/>
-                <polygon points="10,9 16,12 10,15" fill="currentColor"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- Камера 2 -->
-         <div class="camera" data-cam-name="Полка 2">
-            <div class="cam-header">Полка 2</div>
-          <img id="cam2_preview" class="frame" alt="Кадр камеры 2">
-          <div class="cam-actions">
-            <button class="icon-btn tip" data-tip="Обновить" id="cam2_refresh">
-              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M21 12a9 9 0 1 1-3.7-7.3M21 3v6h-6"/></svg>
-            </button>
-            <a class="icon-btn tip" data-tip="Скачать" id="cam2_download" href="#" download>
-              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-            </a>
-            <button class="icon-btn tip" data-tip="Сделать снимок" id="cam2_capture" {% if current_user.username != 'admin' %}disabled{% endif %}>
-              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3l2-3h8l2 3h3a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4" stroke-width="2"/></svg>
-            </button>
-            <button class="icon-btn tip" data-tip="История" id="cam2_history">
-              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M3 12a9 9 0 1 0 9-9"/><path stroke-width="2" d="M3 3v6h6"/><path stroke-width="2" d="M12 7v5l3 3"/></svg>
-            </button>
-            <button class="icon-btn tip" data-tip="Timelapse" id="cam2_timelapse">
-              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="5" width="18" height="14" rx="2" ry="2" stroke-width="2"/><polygon points="10,9 16,12 10,15" fill="currentColor"/></svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- Камера 3 -->
-         <div class="camera" data-cam-name="Полка 3">
-            <div class="cam-header">Полка 3</div>
-          <img id="cam3_preview" class="frame" alt="Кадр камеры 3">
-          <div class="cam-actions">
-            <button class="icon-btn tip" data-tip="Обновить" id="cam3_refresh">
-              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M21 12a9 9 0 1 1-3.7-7.3M21 3v6h-6"/></svg>
-            </button>
-            <a class="icon-btn tip" data-tip="Скачать" id="cam3_download" href="#" download>
-              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-            </a>
-            <button class="icon-btn tip" data-tip="Сделать снимок" id="cam3_capture" {% if current_user.username != 'admin' %}disabled{% endif %}>
-              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3l2-3h8l2 3h3a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4" stroke-width="2"/></svg>
-            </button>
-            <button class="icon-btn tip" data-tip="История" id="cam3_history">
-              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M3 12a9 9 0 1 0 9-9"/><path stroke-width="2" d="M3 3v6h6"/><path stroke-width="2" d="M12 7v5l3 3"/></svg>
-            </button>
-            <button class="icon-btn tip" data-tip="Timelapse" id="cam3_timelapse">
-              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="5" width="18" height="14" rx="2" ry="2" stroke-width="2"/><polygon points="10,9 16,12 10,15" fill="currentColor"/></svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- Камера 4 -->
-         <div class="camera" data-cam-name="Полка 4 (нижняя)">
-            <div class="cam-header">Полка 4 (нижняя)</div>
-          <img id="cam4_preview" class="frame" alt="Кадр камеры 4">
-          <div class="cam-actions">
-            <button class="icon-btn tip" data-tip="Обновить" id="cam4_refresh">
-              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M21 12a9 9 0 1 1-3.7-7.3M21 3v6h-6"/></svg>
-            </button>
-            <a class="icon-btn tip" data-tip="Скачать" id="cam4_download" href="#" download>
-              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-            </a>
-            <button class="icon-btn tip" data-tip="Сделать снимок" id="cam4_capture" {% if current_user.username != 'admin' %}disabled{% endif %}>
-              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3l2-3h8l2 3h3a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4" stroke-width="2"/></svg>
-            </button>
-            <button class="icon-btn tip" data-tip="История" id="cam4_history">
-              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M3 12a9 9 0 1 0 9-9"/><path stroke-width="2" d="M3 3v6h6"/><path stroke-width="2" d="M12 7v5l3 3"/></svg>
-            </button>
-            <button class="icon-btn tip" data-tip="Timelapse" id="cam4_timelapse">
-              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="5" width="18" height="14" rx="2" ry="2" stroke-width="2"/><polygon points="10,9 16,12 10,15" fill="currentColor"/></svg>
-            </button>
-          </div>
-        </div>
-
-
-      </div>
-    </div>
-  </div>
+{#  <div class="col-right">#}
+{#    <div class="cameras card">#}
+{#      <h2>Камеры</h2>#}
+{##}
+{#        <div id="camFrameModal" class="modal" style="display:none">#}
+{#          <div class="modal-content">#}
+{#            <span class="close" onclick="document.getElementById('camFrameModal').style.display='none'">&times;</span>#}
+{#            <h2>Показать кадр на дату/время</h2>#}
+{#            <input type="hidden" id="cam_frame_modal_camid" value="">#}
+{#            <div class="form-group">#}
+{#              <label for="cam_frame_dt">Дата и время</label>#}
+{#              <input type="datetime-local" id="cam_frame_dt" class="form-control">#}
+{#            </div>#}
+{#            <div class="form-group">#}
+{#              <button id="cam_frame_show" class="btn">Показать</button>#}
+{#              <a id="cam_frame_download" class="btn ghost" href="#" download>Скачать</a>#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
+{#        <div id="camTlModal" class="modal" style="display:none">#}
+{#          <div class="modal-content">#}
+{#            <span class="close" onclick="document.getElementById('camTlModal').style.display='none'">&times;</span>#}
+{#            <h2>Сохранить клип</h2>#}
+{#            <input type="hidden" id="cam_tl_modal_camid" value="">#}
+{#            <div class="form-group">#}
+{#              <label for="cam_tl_start">От</label>#}
+{#              <input type="datetime-local" id="cam_tl_start" class="form-control">#}
+{#            </div>#}
+{#            <div class="form-group">#}
+{#              <label for="cam_tl_end">До</label>#}
+{#              <input type="datetime-local" id="cam_tl_end" class="form-control">#}
+{#            </div>#}
+{#            <div class="form-group">#}
+{#              <label for="cam_tl_fps">FPS</label>#}
+{#              <input type="number" id="cam_tl_fps" class="form-control" min="1" max="60" value="20">#}
+{#            </div>#}
+{#            <div class="form-group">#}
+{#              <button id="cam_tl_save" class="btn">Сохранить клип</button>#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
+{##}
+{##}
+{##}
+{#      <!-- Сетка камер 2×2 -->#}
+{#      <div class="camera-grid">#}
+{##}
+{#        <!-- Камера 1 (твоя текущая) -->#}
+{#        <div class="camera" data-cam-name="Полка 1 (верхняя)">#}
+{#            <div class="cam-header">Полка 1 (верхняя)</div>#}
+{#          <img id="cam1_preview" class="frame" alt="Кадр камеры 1">#}
+{##}
+{#          <div class="cam-actions">#}
+{#            <!-- обновить (последний кадр) -->#}
+{#            <button class="icon-btn tip" data-tip="Обновить" id="cam1_refresh">#}
+{#              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">#}
+{#                <path stroke-width="2" d="M21 12a9 9 0 1 1-3.7-7.3M21 3v6h-6"/>#}
+{#              </svg>#}
+{#            </button>#}
+{##}
+{#            <!-- скачать текущий (последний/выбранный) -->#}
+{#            <a class="icon-btn tip" data-tip="Скачать" id="cam1_download" href="#" download>#}
+{#              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">#}
+{#                <path stroke-width="2" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>#}
+{#              </svg>#}
+{#            </a>#}
+{##}
+{#            <!-- сделать снимок -->#}
+{#            <button class="icon-btn tip" data-tip="Сделать снимок" id="cam1_capture" {% if current_user.username != 'admin' %}disabled{% endif %}>#}
+{#              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">#}
+{#                <path stroke-width="2" d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3l2-3h8l2 3h3a2 2 0 0 1 2 2z"/>#}
+{#                <circle cx="12" cy="13" r="4" stroke-width="2"/>#}
+{#              </svg>#}
+{#            </button>#}
+{##}
+{#            <!-- история (кадр на дату/время) -->#}
+{#            <button class="icon-btn tip" data-tip="История" id="cam1_history">#}
+{#              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">#}
+{#                <path stroke-width="2" d="M3 12a9 9 0 1 0 9-9"/>#}
+{#                <path stroke-width="2" d="M3 3v6h6"/>#}
+{#                <path stroke-width="2" d="M12 7v5l3 3"/>#}
+{#              </svg>#}
+{#            </button>#}
+{##}
+{#            <!-- timelapse -->#}
+{#            <button class="icon-btn tip" data-tip="Timelapse" id="cam1_timelapse">#}
+{#              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">#}
+{#                <rect x="3" y="5" width="18" height="14" rx="2" ry="2" stroke-width="2"/>#}
+{#                <polygon points="10,9 16,12 10,15" fill="currentColor"/>#}
+{#              </svg>#}
+{#            </button>#}
+{#          </div>#}
+{#        </div>#}
+{##}
+{#        <!-- Камера 2 -->#}
+{#         <div class="camera" data-cam-name="Полка 2">#}
+{#            <div class="cam-header">Полка 2</div>#}
+{#          <img id="cam2_preview" class="frame" alt="Кадр камеры 2">#}
+{#          <div class="cam-actions">#}
+{#            <button class="icon-btn tip" data-tip="Обновить" id="cam2_refresh">#}
+{#              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M21 12a9 9 0 1 1-3.7-7.3M21 3v6h-6"/></svg>#}
+{#            </button>#}
+{#            <a class="icon-btn tip" data-tip="Скачать" id="cam2_download" href="#" download>#}
+{#              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>#}
+{#            </a>#}
+{#            <button class="icon-btn tip" data-tip="Сделать снимок" id="cam2_capture" {% if current_user.username != 'admin' %}disabled{% endif %}>#}
+{#              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3l2-3h8l2 3h3a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4" stroke-width="2"/></svg>#}
+{#            </button>#}
+{#            <button class="icon-btn tip" data-tip="История" id="cam2_history">#}
+{#              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M3 12a9 9 0 1 0 9-9"/><path stroke-width="2" d="M3 3v6h6"/><path stroke-width="2" d="M12 7v5l3 3"/></svg>#}
+{#            </button>#}
+{#            <button class="icon-btn tip" data-tip="Timelapse" id="cam2_timelapse">#}
+{#              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="5" width="18" height="14" rx="2" ry="2" stroke-width="2"/><polygon points="10,9 16,12 10,15" fill="currentColor"/></svg>#}
+{#            </button>#}
+{#          </div>#}
+{#        </div>#}
+{##}
+{#        <!-- Камера 3 -->#}
+{#         <div class="camera" data-cam-name="Полка 3">#}
+{#            <div class="cam-header">Полка 3</div>#}
+{#          <img id="cam3_preview" class="frame" alt="Кадр камеры 3">#}
+{#          <div class="cam-actions">#}
+{#            <button class="icon-btn tip" data-tip="Обновить" id="cam3_refresh">#}
+{#              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M21 12a9 9 0 1 1-3.7-7.3M21 3v6h-6"/></svg>#}
+{#            </button>#}
+{#            <a class="icon-btn tip" data-tip="Скачать" id="cam3_download" href="#" download>#}
+{#              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>#}
+{#            </a>#}
+{#            <button class="icon-btn tip" data-tip="Сделать снимок" id="cam3_capture" {% if current_user.username != 'admin' %}disabled{% endif %}>#}
+{#              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3l2-3h8l2 3h3a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4" stroke-width="2"/></svg>#}
+{#            </button>#}
+{#            <button class="icon-btn tip" data-tip="История" id="cam3_history">#}
+{#              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M3 12a9 9 0 1 0 9-9"/><path stroke-width="2" d="M3 3v6h6"/><path stroke-width="2" d="M12 7v5l3 3"/></svg>#}
+{#            </button>#}
+{#            <button class="icon-btn tip" data-tip="Timelapse" id="cam3_timelapse">#}
+{#              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="5" width="18" height="14" rx="2" ry="2" stroke-width="2"/><polygon points="10,9 16,12 10,15" fill="currentColor"/></svg>#}
+{#            </button>#}
+{#          </div>#}
+{#        </div>#}
+{##}
+{#        <!-- Камера 4 -->#}
+{#         <div class="camera" data-cam-name="Полка 4 (нижняя)">#}
+{#            <div class="cam-header">Полка 4 (нижняя)</div>#}
+{#          <img id="cam4_preview" class="frame" alt="Кадр камеры 4">#}
+{#          <div class="cam-actions">#}
+{#            <button class="icon-btn tip" data-tip="Обновить" id="cam4_refresh">#}
+{#              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M21 12a9 9 0 1 1-3.7-7.3M21 3v6h-6"/></svg>#}
+{#            </button>#}
+{#            <a class="icon-btn tip" data-tip="Скачать" id="cam4_download" href="#" download>#}
+{#              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>#}
+{#            </a>#}
+{#            <button class="icon-btn tip" data-tip="Сделать снимок" id="cam4_capture" {% if current_user.username != 'admin' %}disabled{% endif %}>#}
+{#              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3l2-3h8l2 3h3a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4" stroke-width="2"/></svg>#}
+{#            </button>#}
+{#            <button class="icon-btn tip" data-tip="История" id="cam4_history">#}
+{#              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M3 12a9 9 0 1 0 9-9"/><path stroke-width="2" d="M3 3v6h6"/><path stroke-width="2" d="M12 7v5l3 3"/></svg>#}
+{#            </button>#}
+{#            <button class="icon-btn tip" data-tip="Timelapse" id="cam4_timelapse">#}
+{#              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="5" width="18" height="14" rx="2" ry="2" stroke-width="2"/><polygon points="10,9 16,12 10,15" fill="currentColor"/></svg>#}
+{#            </button>#}
+{#          </div>#}
+{#        </div>#}
+{##}
+{##}
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
   <!-- ===== ЛЕВАЯ КОЛОНКА: ЛОГИ ===== -->
   <div class="col-left">
     <div class="logs">

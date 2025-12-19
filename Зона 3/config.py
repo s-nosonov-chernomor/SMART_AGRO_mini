@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 # Основные настройки проекта
-DB_NAME = os.getenv("DB_NAME", "mini_150825.db")
+DB_NAME = os.getenv("DB_NAME", "mini_101125_Н.db")
 DB_PATH = os.path.join(basedir, DB_NAME)
 
 class Config:

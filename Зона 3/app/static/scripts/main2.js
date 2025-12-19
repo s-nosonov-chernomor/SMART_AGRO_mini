@@ -80,12 +80,14 @@ async function updateData() {
         };
 
 
-        updateButton('napolnit', 'Наполнение');
+        updateButton('napolnit', 'Водяное охлаждение');
         updateButton('peremesh', 'Перемешивание');
-        updateButton('sliv', 'Слив');
+        updateButton('sliv', 'Увлажнитель');
         updateButton('nasos', 'Насос');
-        updateButton('svet1', 'Свет 12');
-        updateButton('svet2', 'Свет 34');
+        updateButton('svet1', 'Свет 1');
+        updateButton('svet2', 'Свет 2');
+        updateButton('svet3', 'Свет 3');
+        updateButton('svet4', 'Свет 4');
 
         updateButton('polka1', 'Полка 1');
         updateButton('polka2', 'Полка 2');
@@ -95,10 +97,22 @@ async function updateData() {
         updateButton('mode_param', 'Режим эксплуатации');
         updateButton('mixing', 'Растворный узел');
 
-        updateButton('chanel_1_1_white', 'КАНАЛ 1 БЕЛЫЙ');
-        updateText('level_1_1_white',    'ЯРКОСТЬ 1 БЕЛЫЙ');
+        updateButton('chanel_1_1_white', 'КАНАЛ 1 СИНИЙ');
+        updateText('level_1_1_white',    'ЯРКОСТЬ 1 СИНИЙ');
         updateButton('chanel_1_1_red',   'КАНАЛ 1 КРАСНЫЙ');
         updateText('level_1_1_red',      'ЯРКОСТЬ 1 КРАСНЫЙ');
+        updateButton('chanel_1_2_white', 'КАНАЛ 2 СИНИЙ');
+        updateText('level_1_2_white',    'ЯРКОСТЬ 2 СИНИЙ');
+        updateButton('chanel_1_2_red',   'КАНАЛ 2 КРАСНЫЙ');
+        updateText('level_1_2_red',      'ЯРКОСТЬ 2 КРАСНЫЙ');
+        updateButton('chanel_1_3_white', 'КАНАЛ 3 СИНИЙ');
+        updateText('level_1_3_white',    'ЯРКОСТЬ 3 СИНИЙ');
+        updateButton('chanel_1_3_red',   'КАНАЛ 3 КРАСНЫЙ');
+        updateText('level_1_3_red',      'ЯРКОСТЬ 3 КРАСНЫЙ');
+        updateButton('chanel_1_4_white', 'КАНАЛ 4 СИНИЙ');
+        updateText('level_1_4_white',    'ЯРКОСТЬ 4 СИНИЙ');
+        updateButton('chanel_1_4_red',   'КАНАЛ 4 КРАСНЫЙ');
+        updateText('level_1_4_red',      'ЯРКОСТЬ 4 КРАСНЫЙ');
 
         updateText2('UNIT_ID_PH', 'Уровень PH');
         updateText2('UNIT_ID_EC', 'Уровень EC');
@@ -111,9 +125,9 @@ async function updateData() {
 
         // Обновляем графические индикаторы для баков компонентов
 
-        updateBinaryIndicator('indicator-level-A1', 'Уровень А максимум');
-        updateBinaryIndicator('indicator-level-B1', 'Уровень В максимум');
-        updateBinaryIndicator('indicator-level-K1', 'Уровень К максимум');
+        // updateBinaryIndicator('indicator-level-A1', 'Уровень А максимум');
+        // updateBinaryIndicator('indicator-level-B1', 'Уровень В максимум');
+        // updateBinaryIndicator('indicator-level-K1', 'Уровень К максимум');
 
         updateBinaryIndicator('indicator-level-A2', 'Уровень А минимум');
         updateBinaryIndicator('indicator-level-B2', 'Уровень В минимум');
