@@ -15,8 +15,8 @@
           <!-- сохраняем id и onclick -->
             <button id="nasos" class="status-button" onclick="toggleParameter('Насос')" {% if current_user.username != 'admin' %}disabled{% endif %}>Насос</button>
             <button id="peremesh" class="status-button" onclick="toggleParameter('Перемешивание')" {% if current_user.username != 'admin' %}disabled{% endif %}>Перемешивание</button>
-            <button id="napolnit" class="status-button" onclick="toggleParameter('Водяное охлаждение')" {% if current_user.username != 'admin' %}disabled{% endif %}>Водяное охлаждение</button>
-            <button id="sliv" class="status-button" onclick="toggleParameter('Увлажнитель')" {% if current_user.username != 'admin' %}disabled{% endif %}>Увлажнитель</button>
+            <button id="napolnit" class="status-button" onclick="toggleParameter('Наполнение')" {% if current_user.username != 'admin' %}disabled{% endif %}>Наполнение</button>
+            <button id="sliv" class="status-button" onclick="toggleParameter('Дренаж')" {% if current_user.username != 'admin' %}disabled{% endif %}>Дренаж</button>
             <button id="mixing" class="status-button" onclick="toggleParameter('Растворный узел')" {% if current_user.username != 'admin' %}disabled{% endif %}>Растворный узел</button>
             <button id="mode_param" class="status-button" onclick="toggleParameter('Режим эксплуатации')" {% if current_user.username != 'admin' %}disabled{% endif %}>Режим эксплуатации</button>
         </div>
@@ -24,10 +24,12 @@
       <div class="card">
         <h2>Управление поливом</h2>
         <div class="controls-grid controls-grid--stack">
-          <button id="polka1" class="status-button" onclick="toggleParameter('Полка 1')" {% if current_user.username != 'admin' %}disabled{% endif %}>Полив полка 1</button>
-          <button id="polka2" class="status-button" onclick="toggleParameter('Полка 2')" {% if current_user.username != 'admin' %}disabled{% endif %}>Полив полка 2</button>
-          <button id="polka3" class="status-button" onclick="toggleParameter('Полка 3')" {% if current_user.username != 'admin' %}disabled{% endif %}>Полив полка 3</button>
-          <button id="polka4" class="status-button" onclick="toggleParameter('Полка 4')" {% if current_user.username != 'admin' %}disabled{% endif %}>Полив полка 4</button>
+          <button id="polka1" class="status-button" onclick="toggleParameter('Стеллаж 1')" {% if current_user.username != 'admin' %}disabled{% endif %}>Полив Стеллаж 1</button>
+          <button id="polka2" class="status-button" onclick="toggleParameter('Стеллаж 2')" {% if current_user.username != 'admin' %}disabled{% endif %}>Полив Стеллаж 2</button>
+          <button id="polka3" class="status-button" onclick="toggleParameter('Стеллаж 3')" {% if current_user.username != 'admin' %}disabled{% endif %}>Полив Стеллаж 3</button>
+          <button id="polka4" class="status-button" onclick="toggleParameter('Стеллаж 4')" {% if current_user.username != 'admin' %}disabled{% endif %}>Полив Стеллаж 4</button>
+          <button id="polka5" class="status-button" onclick="toggleParameter('Стеллаж 5')" {% if current_user.username != 'admin' %}disabled{% endif %}>Полив Стеллаж 5</button>
+          <button id="polka6" class="status-button" onclick="toggleParameter('Стеллаж 6')" {% if current_user.username != 'admin' %}disabled{% endif %}>Полив Стеллаж 6</button>
         </div>
       </div>
 
@@ -36,10 +38,8 @@
         <h2>Управление освещением</h2>
         <div class="controls-grid controls-grid--pairs">
           <!-- Белый -->
-            <button id="svet1" class="status-button" onclick="toggleParameter('Свет 1')" {% if current_user.username != 'admin' %}disabled{% endif %}>Питание полка 1</button>
-            <button id="svet2" class="status-button" onclick="toggleParameter('Свет 2')" {% if current_user.username != 'admin' %}disabled{% endif %}>Питание полка 2</button>
-            <button id="svet3" class="status-button" onclick="toggleParameter('Свет 3')" {% if current_user.username != 'admin' %}disabled{% endif %}>Питание полка 3</button>
-            <button id="svet4" class="status-button" onclick="toggleParameter('Свет 4')" {% if current_user.username != 'admin' %}disabled{% endif %}>Питание полка 4</button>
+            <button id="svet1" class="status-button" onclick="toggleParameter('Свет 1')" {% if current_user.username != 'admin' %}disabled{% endif %}>Напряжение свет 1</button>
+            <button id="svet2" class="status-button" onclick="toggleParameter('Свет 2')" {% if current_user.username != 'admin' %}disabled{% endif %}>Напряжение свет 2</button>
 
             <div class="control-pair">
               <button id="level_1_1_white"
@@ -88,56 +88,6 @@
                       class="btn"
                       onclick="toggleParameter('КАНАЛ 2 КРАСНЫЙ')"
                       {% if current_user.username != 'admin' %}disabled{% endif %}>Канал 2 красный</button>
-            </div>
-
-            <div class="control-pair">
-              <button id="level_1_3_white"
-                      class="btn value-btn"
-                      onclick="openModal('ЯРКОСТЬ 3 СИНИЙ')"
-                      {% if current_user.username != 'admin' %}disabled{% endif %}>0</button>
-
-              <button id="chanel_1_3_white"
-                      class="btn"
-                      onclick="toggleParameter('КАНАЛ 3 СИНИЙ')"
-                      {% if current_user.username != 'admin' %}disabled{% endif %}>Канал 3 синий</button>
-            </div>
-
-            <!-- Красный -->
-            <div class="control-pair">
-              <button id="level_1_3_red"
-                      class="btn value-btn"
-                      onclick="openModal('ЯРКОСТЬ 3 КРАСНЫЙ')"
-                      {% if current_user.username != 'admin' %}disabled{% endif %}>0</button>
-
-              <button id="chanel_1_3_red"
-                      class="btn"
-                      onclick="toggleParameter('КАНАЛ 3 КРАСНЫЙ')"
-                      {% if current_user.username != 'admin' %}disabled{% endif %}>Канал 3 красный</button>
-            </div>
-
-            <div class="control-pair">
-              <button id="level_1_4_white"
-                      class="btn value-btn"
-                      onclick="openModal('ЯРКОСТЬ 4 СИНИЙ')"
-                      {% if current_user.username != 'admin' %}disabled{% endif %}>0</button>
-
-              <button id="chanel_1_4_white"
-                      class="btn"
-                      onclick="toggleParameter('КАНАЛ 4 СИНИЙ')"
-                      {% if current_user.username != 'admin' %}disabled{% endif %}>Канал 4 синий</button>
-            </div>
-
-            <!-- Красный -->
-            <div class="control-pair">
-              <button id="level_1_4_red"
-                      class="btn value-btn"
-                      onclick="openModal('ЯРКОСТЬ 4 КРАСНЫЙ')"
-                      {% if current_user.username != 'admin' %}disabled{% endif %}>0</button>
-
-              <button id="chanel_1_4_red"
-                      class="btn"
-                      onclick="toggleParameter('КАНАЛ 4 КРАСНЫЙ')"
-                      {% if current_user.username != 'admin' %}disabled{% endif %}>Канал 4 красный</button>
             </div>
 
         </div>

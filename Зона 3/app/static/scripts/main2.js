@@ -80,19 +80,19 @@ async function updateData() {
         };
 
 
-        updateButton('napolnit', 'Водяное охлаждение');
+        updateButton('napolnit', 'Наполнение');
         updateButton('peremesh', 'Перемешивание');
-        updateButton('sliv', 'Увлажнитель');
+        updateButton('sliv', 'Дренаж');
         updateButton('nasos', 'Насос');
         updateButton('svet1', 'Свет 1');
         updateButton('svet2', 'Свет 2');
-        updateButton('svet3', 'Свет 3');
-        updateButton('svet4', 'Свет 4');
 
-        updateButton('polka1', 'Полка 1');
-        updateButton('polka2', 'Полка 2');
-        updateButton('polka3', 'Полка 3');
-        updateButton('polka4', 'Полка 4');
+        updateButton('polka1', 'Стеллаж 1');
+        updateButton('polka2', 'Стеллаж 2');
+        updateButton('polka3', 'Стеллаж 3');
+        updateButton('polka4', 'Стеллаж 4');
+        updateButton('polka5', 'Стеллаж 5');
+        updateButton('polka6', 'Стеллаж 6');
 
         updateButton('mode_param', 'Режим эксплуатации');
         updateButton('mixing', 'Растворный узел');
