@@ -26,7 +26,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(me
 log = logging.getLogger("pwchanger")
 
 # ──────────────── ДЕФОЛТЫ ───────────────
-DEFAULT_DB_FILENAME = "mini_150825.db"
+DEFAULT_DB_FILENAME = "mini_school_smolensk.db"
 DEFAULT_TABLE_PRIMARY = "user"
 DEFAULT_TABLE_FALLBACK = "users"
 DEFAULT_ID_COL = "id"

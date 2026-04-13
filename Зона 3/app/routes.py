@@ -1,3 +1,4 @@
+# C:\PyCharmProjects\agrosmart ЗОНА 3\Зона 3\app\routes.py
 from . import db, login
 from flask import Blueprint, render_template, flash, redirect, url_for, jsonify, request, current_app
 from flask_login import current_user, login_user, logout_user, login_required
