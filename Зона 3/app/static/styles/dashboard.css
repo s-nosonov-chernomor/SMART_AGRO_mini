@@ -435,3 +435,137 @@ nav ul li a[data-active="true"]{
   box-shadow: 0 10px 40px rgba(0,0,0,.5);
 }
 body.no-scroll{ overflow: hidden; }
+
+.control-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.4rem;
+  margin-right: 8px;
+  font-size: 1.05rem;
+}
+
+/* ===== КНОПКИ ЗНАЧЕНИЙ / ЯРКОСТИ ===== */
+.dynamic-value-btn {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 54px;
+  padding: 6px 10px;
+  border-radius: 14px;
+  border: 1px solid #d7dde5;
+  background: linear-gradient(180deg, #ffffff 0%, #f5f7fa 100%);
+  color: #2f2f2f;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: 0.15s ease;
+  font-weight: 700;
+}
+
+.dynamic-value-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.dynamic-value-btn:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+.value-btn-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  text-align: left;
+  line-height: 1.05;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.value-btn-label {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  line-height: 1.05;
+}
+
+.value-btn-current {
+  min-width: 34px;
+  text-align: right;
+  font-size: 18px;
+  font-weight: 800;
+  color: #222;
+}
+
+.control-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  font-size: 16px;
+  flex: 0 0 auto;
+}
+
+/* Цвета уровней света */
+.dynamic-value-btn.light-level-blue {
+  background: linear-gradient(180deg, #eef6ff 0%, #dcecff 100%);
+  border-color: #b8d4ff;
+}
+
+.dynamic-value-btn.light-level-blue .value-btn-current {
+  color: #0f5cc0;
+}
+
+.dynamic-value-btn.light-level-red {
+  background: linear-gradient(180deg, #fff0f0 0%, #ffe0e0 100%);
+  border-color: #f1b9b9;
+}
+
+.dynamic-value-btn.light-level-red .value-btn-current {
+  color: #b42323;
+}
+
+.dynamic-value-btn.light-level-white {
+  background: linear-gradient(180deg, #ffffff 0%, #f2f2f2 100%);
+  border-color: #d7d7d7;
+}
+
+.dynamic-value-btn.light-level-white .value-btn-current {
+  color: #4a4a4a;
+}
+
+.dynamic-value-btn.light-level-fr {
+  background: linear-gradient(180deg, #fff4f8 0%, #ffddea 100%);
+  border-color: #f2bdd1;
+}
+
+.dynamic-value-btn.light-level-fr .value-btn-current {
+  color: #b03060;
+}
+
+.controls-grid--stack {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+@media (max-width: 1200px) {
+  .controls-grid--stack {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .controls-grid--stack {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .controls-grid--stack {
+    grid-template-columns: 1fr;
+  }
+}

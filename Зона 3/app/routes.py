@@ -197,38 +197,151 @@ def _build_timelapse(files, fps: int, out_path: str) -> bool:
     finally:
         vw.release()
     return True
-# === КАМЕРА: вспомогалки ===
 
+def _ui_group_icon(group_name: str) -> str:
+    icons = {
+        "Управление общее": "🧩",
+        "Управление поливом": "💧",
+        "Управление освещением": "💡",
+    }
+    return icons.get(group_name, "⚙️")
 
+def _ui_item_icon(param_name: str, register_type: str) -> str:
+    name = (param_name or "").lower()
+
+    # Сначала иконки по смыслу имени
+    if "насос" in name:
+        return "🔄"
+    if "перемеш" in name:
+        return "🌀"
+    if "режим" in name:
+        return "🛠️"
+    if "свет" in name:
+        return "💡"
+    if "яркость" in name:
+        return "🌗"
+    if "канал" in name:
+        return "🔌"
+    if "полка" in name or "стеллаж" in name:
+        return "🚿"
+    if "охлаждение" in name:
+        return "❄️"
+    if "увлажн" in name:
+        return "💨"
+
+    # Потом fallback по типу регистра
+    if str(register_type) == "1":
+        return "⏻"
+    if str(register_type) == "3":
+        return "🔢"
+
+    return "⚙️"
+
+def build_control_groups(params):
+    allowed_groups = [
+        "Управление общее",
+        "Управление поливом",
+        "Управление освещением",
+    ]
+
+    groups = {
+        group_name: {
+            "title": group_name,
+            "icon": _ui_group_icon(group_name),
+            "items": []
+        }
+        for group_name in allowed_groups
+    }
+
+    for p in params:
+        register_name = (p.register_name or "").strip()
+        operation_type = (p.operation_type or "").strip()
+        register_type = str(p.register_type or "").strip()
+        param_name = (p.controlled_parameter_name or "").strip()
+
+        if not param_name:
+            continue
+
+        # manual не выводим сюда
+        if register_name == "manual":
+            continue
+
+        # только нужные разделы
+        if register_name not in groups:
+            continue
+
+        # только чтение/запись
+        if operation_type.lower() != "чтение / запись":
+            continue
+
+        # только кнопка или поле значения
+        if register_type not in ("1", "3"):
+            continue
+
+        groups[register_name]["items"].append({
+            "name": param_name,
+            "value": p.value or "0",
+            "register_type": register_type,
+            "icon": _ui_item_icon(param_name, register_type),
+            "value_class": _ui_value_class(param_name),
+        })
+
+    # сортировка по имени
+    for group in groups.values():
+        group["items"].sort(key=lambda x: x["name"].lower())
+
+    return groups
+
+def _ui_value_class(param_name: str) -> str:
+    name = (param_name or "").lower()
+
+    if "синий" in name or "blue" in name:
+        return "light-level-blue"
+    if "красный" in name or "red" in name:
+        return "light-level-red"
+    if "white" in name or "белый" in name:
+        return "light-level-white"
+    if "fr" in name or "дальний красный" in name:
+        return "light-level-fr"
+
+    return ""
 
 @bp.route('/')
 @bp.route('/index')
 @login_required
 def index():
     parameters = Parameter.query.all()
-    # Приводим ключи и значения к строковому типу
+
     parameters_dict = {}
     for param in parameters:
         key = param.controlled_parameter_name
         if isinstance(key, bytes):
             key = key.decode('utf-8')
+
         value = param.value
         if isinstance(value, bytes):
             value = value.decode('utf-8')
+
         parameters_dict[key] = value
+
+    control_groups = build_control_groups(parameters)
 
     logs_info = Log.query.filter(Log.level == 'INFO').order_by(Log.timestamp.desc()).all()
     logs_errors = Log.query.filter(Log.level == 'ERROR').order_by(Log.timestamp.desc()).all()
     records = DensityRecord.query.order_by(DensityRecord.timestamp.desc()).all()
     time_adjustment = timedelta(hours=3)
-    return render_template('main.html',
-                           parameters=parameters,
-                           parameters_dict=parameters_dict,
-                           logs_info=logs_info,
-                           logs_errors=logs_errors,
-                           records=records,
-                           timedelta=time_adjustment,
-                           title='Главная')
+
+    return render_template(
+        'main.html',
+        parameters=parameters,
+        parameters_dict=parameters_dict,
+        control_groups=control_groups,
+        logs_info=logs_info,
+        logs_errors=logs_errors,
+        records=records,
+        timedelta=time_adjustment,
+        title='Главная'
+    )
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -931,3 +1044,12 @@ def camera_timelapse_mp4():
         abort(500, description="Не удалось собрать клип")
 
     return send_file(out_path, mimetype="video/mp4", as_attachment=dl, download_name=fname, conditional=True)
+
+@bp.route('/light')
+@login_required
+def light_control():
+    params = Parameter.query.all()
+
+    d = {p.controlled_parameter_name: p.value for p in params}
+
+    return render_template("light.html", p=d)

@@ -910,8 +910,8 @@ def poll_parameters():
 #                             Запуск сервиса
 # ─────────────────────────────────────────────────────────────────────────────
 # Запускаем фоновый поток для пакетной отправки Telegram–сообщений
-_dispatcher_thread = threading.Thread(target=_telegram_dispatcher, daemon=True)
-_dispatcher_thread.start()
+# _dispatcher_thread = threading.Thread(target=_telegram_dispatcher, daemon=True)
+# _dispatcher_thread.start()
 
 def run_sync():
     with app.app_context():

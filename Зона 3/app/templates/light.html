@@ -1,0 +1,316 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+  .light-page {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    max-width: 1100px;
+  }
+
+  .light-card {
+    background: #f6f6f6;
+    border: 1px solid #d9d9d9;
+    border-radius: 18px;
+    padding: 22px 24px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  }
+
+  .light-card h2 {
+    margin: 0 0 18px 0;
+    font-size: 28px;
+    line-height: 1.2;
+  }
+
+  .slider-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .slider-row {
+    background: #ffffff;
+    border: 1px solid #dfe3e8;
+    border-radius: 18px;
+    padding: 18px 20px;
+  }
+
+  .slider-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 14px;
+  }
+
+  .slider-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #222;
+  }
+
+  .slider-value {
+    min-width: 96px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 800;
+    color: #111;
+    background: #f1f3f5;
+    border: 1px solid #d0d7de;
+    border-radius: 14px;
+    padding: 10px 14px;
+  }
+
+  .slider-value small {
+    font-size: 16px;
+    font-weight: 600;
+    color: #555;
+    margin-left: 4px;
+  }
+
+  .big-slider {
+    width: 100%;
+    height: 28px;
+    appearance: none;
+    background: linear-gradient(to right, #d9d9d9, #c7c7c7);
+    border-radius: 999px;
+    outline: none;
+  }
+
+  .big-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #2cab43;
+    border: 3px solid #ffffff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    cursor: pointer;
+  }
+
+  .big-slider::-moz-range-thumb {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #2cab43;
+    border: 3px solid #ffffff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    cursor: pointer;
+  }
+
+  .pwm-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(180px, 1fr));
+    gap: 18px;
+  }
+
+  .pwm-box {
+    background: #ffffff;
+    border: 1px solid #dfe3e8;
+    border-radius: 18px;
+    padding: 18px;
+    text-align: center;
+  }
+
+  .pwm-label {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #2a2a2a;
+  }
+
+  .pwm-value {
+    font-size: 34px;
+    font-weight: 800;
+    color: #111;
+  }
+
+  .pwm-value small {
+    font-size: 18px;
+    font-weight: 600;
+    color: #555;
+    margin-left: 4px;
+  }
+
+  @media (max-width: 900px) {
+    .pwm-grid {
+      grid-template-columns: repeat(2, minmax(180px, 1fr));
+    }
+
+    .slider-title {
+      font-size: 20px;
+    }
+
+    .slider-value {
+      font-size: 24px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .pwm-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .slider-head {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .slider-value {
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+</style>
+
+<div class="light-page">
+
+  <div class="light-card">
+    <h2>Рецепт освещения</h2>
+
+    <div class="slider-grid">
+
+      <div class="slider-row">
+        <div class="slider-head">
+          <div class="slider-title">Синий</div>
+          <div class="slider-value"><span id="SET_BLUE">{{ p["SET_BLUE"] }}</span><small>%</small></div>
+        </div>
+        <input
+          id="slider_SET_BLUE"
+          class="big-slider"
+          type="range"
+          min="0"
+          max="100"
+          value="{{ p['SET_BLUE'] }}"
+          oninput="updateSliderLabel('SET_BLUE', this.value)"
+          onchange="setVal('SET_BLUE', this.value)"
+        >
+      </div>
+
+      <div class="slider-row">
+        <div class="slider-head">
+          <div class="slider-title">Белый</div>
+          <div class="slider-value"><span id="SET_WHITE">{{ p["SET_WHITE"] }}</span><small>%</small></div>
+        </div>
+        <input
+          id="slider_SET_WHITE"
+          class="big-slider"
+          type="range"
+          min="0"
+          max="100"
+          value="{{ p['SET_WHITE'] }}"
+          oninput="updateSliderLabel('SET_WHITE', this.value)"
+          onchange="setVal('SET_WHITE', this.value)"
+        >
+      </div>
+
+      <div class="slider-row">
+        <div class="slider-head">
+          <div class="slider-title">Красный</div>
+          <div class="slider-value"><span id="SET_RED">{{ p["SET_RED"] }}</span><small>%</small></div>
+        </div>
+        <input
+          id="slider_SET_RED"
+          class="big-slider"
+          type="range"
+          min="0"
+          max="100"
+          value="{{ p['SET_RED'] }}"
+          oninput="updateSliderLabel('SET_RED', this.value)"
+          onchange="setVal('SET_RED', this.value)"
+        >
+      </div>
+
+      <div class="slider-row">
+        <div class="slider-head">
+          <div class="slider-title">Дальний красный</div>
+          <div class="slider-value"><span id="SET_FR">{{ p["SET_FR"] }}</span><small>%</small></div>
+        </div>
+        <input
+          id="slider_SET_FR"
+          class="big-slider"
+          type="range"
+          min="0"
+          max="100"
+          value="{{ p['SET_FR'] }}"
+          oninput="updateSliderLabel('SET_FR', this.value)"
+          onchange="setVal('SET_FR', this.value)"
+        >
+      </div>
+
+    </div>
+  </div>
+
+  <div class="light-card">
+    <h2>Текущий ШИМ</h2>
+
+    <div class="pwm-grid">
+      <div class="pwm-box">
+        <div class="pwm-label">Синий</div>
+        <div class="pwm-value"><span id="PWM_BLUE">{{ p["PWM_BLUE"] }}</span><small>%</small></div>
+      </div>
+
+      <div class="pwm-box">
+        <div class="pwm-label">Белый</div>
+        <div class="pwm-value"><span id="PWM_WHITE">{{ p["PWM_WHITE"] }}</span><small>%</small></div>
+      </div>
+
+      <div class="pwm-box">
+        <div class="pwm-label">Красный</div>
+        <div class="pwm-value"><span id="PWM_RED">{{ p["PWM_RED"] }}</span><small>%</small></div>
+      </div>
+
+      <div class="pwm-box">
+        <div class="pwm-label">Дальний красный</div>
+        <div class="pwm-value"><span id="PWM_FR">{{ p["PWM_FR"] }}</span><small>%</small></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function updateSliderLabel(name, val) {
+    const el = document.getElementById(name);
+    if (el) el.innerText = val;
+}
+
+function setVal(name, val) {
+    fetch('/set_parameter_value', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            parameter: name,
+            value: val
+        })
+    }).catch(err => console.error('Ошибка записи значения:', err));
+}
+
+setInterval(() => {
+    fetch('/get_parameters')
+        .then(r => r.json())
+        .then(data => {
+            ["BLUE", "WHITE", "RED", "FR"].forEach(ch => {
+                const pwmEl = document.getElementById("PWM_" + ch);
+                if (pwmEl && data["PWM_" + ch] !== undefined) {
+                    pwmEl.innerText = data["PWM_" + ch];
+                }
+
+                const setEl = document.getElementById("SET_" + ch);
+                const sliderEl = document.getElementById("slider_SET_" + ch);
+
+                if (setEl && data["SET_" + ch] !== undefined) {
+                    setEl.innerText = data["SET_" + ch];
+                }
+
+                if (sliderEl && data["SET_" + ch] !== undefined) {
+                    sliderEl.value = data["SET_" + ch];
+                }
+            });
+        })
+        .catch(err => console.error('Ошибка чтения параметров:', err));
+}, 2000);
+</script>
+
+{% endblock %}
