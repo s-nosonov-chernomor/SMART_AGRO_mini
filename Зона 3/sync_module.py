@@ -1,4 +1,4 @@
-# sync_module.py main mini
+#C:\PyCharmProjects\agrosmart ЗОНА 3\Зона 3\sync_module.py
 
 import os
 import time
@@ -27,8 +27,13 @@ DEBUG_BAUDRATE         = int(os.getenv("DEBUG_BAUDRATE", "115200"))
 DEBUG_TIMEOUT_COM      = float(os.getenv("DEBUG_TIMEOUT_COM", "0.1"))
 DEBUG_HANDLE_ECHO      = os.getenv("DEBUG_HANDLE_ECHO", "True").lower() == "true"
 
-TELEGRAM_TOKEN         = os.getenv("TELEGRAM_TOKEN")
-TELEGRAM_CHAT_ID       = os.getenv("TELEGRAM_CHAT_ID")
+MAX_TOKEN              = os.getenv("MAX_TOKEN")
+MAX_CHAT_ID            = os.getenv("MAX_CHAT_ID")
+MAX_USER_ID            = os.getenv("MAX_USER_ID")
+
+MAX_BATCH_INTERVAL     = int(os.getenv("MAX_BATCH_INTERVAL", "10"))
+MAX_API_BASE           = os.getenv("MAX_API_BASE", "https://platform-api.max.ru")
+MAX_DISABLE_LINK_PREVIEW = os.getenv("MAX_DISABLE_LINK_PREVIEW", "true").lower() == "true"
 
 CRITICAL_ALERT_INTERVAL= int(os.getenv("CRITICAL_ALERT_INTERVAL", "60"))  # в минутах
 OFFLINE_ALERT_THRESHOLDS = [5, 10, 30, 60]  # в минутах
@@ -36,8 +41,7 @@ OFFLINE_ALERT_THRESHOLDS = [5, 10, 30, 60]  # в минутах
 PH_LOW, PH_HIGH        = 5.5, 7.5
 EC_LOW, EC_HIGH        = 1.5, 2.5
 
-# Интервал пакетной отправки (сек)
-TELEGRAM_BATCH_INTERVAL = int(os.getenv("TELEGRAM_BATCH_INTERVAL", "10"))
+
 
 WATER_FLOW_THRESHOLD = float(os.getenv("WATER_FLOW_THRESHOLD", "10"))  # л/м
 
@@ -52,7 +56,7 @@ session = db.session
 #                         Глобальные структуры
 # ─────────────────────────────────────────────────────────────────────────────
 # Очередь для сообщений в Telegram
-telegram_queue = queue.Queue()
+notify_queue = queue.Queue()
 
 modbus_clients         = {}   # name -> minimalmodbus.Instrument
 offline_counters       = {}   # name -> {"start": datetime, "sent": set()}
@@ -80,14 +84,14 @@ mix_state = {
 # формат: (параметр1, должен_быть_включен1, параметр2, должен_быть_включен2)
 CRITICAL_LINKS = [
     ("Насос", True, "Уровень 1 минимум", False),
-    ("Подача A в бак", True, "Уровень А", False),
+    ("Подача А в бак", True, "Уровень А", False),
     ("Подача В в бак", True, "Уровень В", False),
     ("Подача кислоты в бак", True, "Уровень К", False),
 ]
 
 STIRRER_PARAM       = "Перемешивание"
 FEED_RELAYS         = [
-    "Подача A в бак",
+    "Подача А в бак",
     "Подача В в бак",
     "Подача кислоты в бак",
 ]
@@ -158,15 +162,52 @@ def monitor_total_volume(current_volume: float):
 
     _prev_total_volume = current_volume
 
-def send_telegram_message(text: str):
-    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-    data = {"chat_id": TELEGRAM_CHAT_ID, "text": text, "parse_mode": "HTML"}
+def send_max_message(text: str, level: str = "INFO"):
+    if not MAX_TOKEN:
+        logger.error("MAX_TOKEN не задан")
+        return False
+
+    if not MAX_CHAT_ID and not MAX_USER_ID:
+        logger.error("Не задан ни MAX_CHAT_ID, ни MAX_USER_ID")
+        return False
+
+    url = f"{MAX_API_BASE}/messages"
+
+    params = {}
+    if MAX_CHAT_ID:
+        params["chat_id"] = MAX_CHAT_ID
+    elif MAX_USER_ID:
+        params["user_id"] = MAX_USER_ID
+
+    # 🔴 логика уведомлений
+    notify = True if level in ("ERROR", "CRITICAL") else False
+
+    headers = {
+        "Authorization": MAX_TOKEN,
+        "Content-Type": "application/json",
+    }
+
+    payload = {
+        "text": text,
+        "disable_link_preview": MAX_DISABLE_LINK_PREVIEW,
+        "notify": notify,
+    }
+
     try:
-        r = requests.post(url, data=data)
-        if r.status_code != 200:
-            logger.error(f"Telegram error {r.status_code}: {r.text}")
+        r = requests.post(
+            url,
+            params=params,
+            headers=headers,
+            json=payload,
+            timeout=5,
+        )
+        if r.status_code not in (200, 201):
+            logger.error(f"MAX error {r.status_code}: {r.text}")
+            return False
+        return True
     except Exception as e:
-        logger.error(f"Telegram exception: {e}")
+        logger.error(f"MAX exception: {e}")
+        return False
 
 def insert_log_message(message: str, level: str="INFO"):
     """
@@ -182,8 +223,8 @@ def insert_log_message(message: str, level: str="INFO"):
             for old in session.query(Log).order_by(Log.timestamp).limit(total-1000):
                 session.delete(old)
             session.commit()
-        # Кладём в очередь только текст для Телеграм
-        telegram_queue.put((level, message))
+        notify_queue.put((level, message))
+
     except Exception as e:
         logger.error(f"Ошибка логирования: {e}")
         session.rollback()
@@ -242,19 +283,18 @@ def format_value(param: Parameter, raw_val: str) -> str:
         return f"{v:.1f}"
     return str(int(round(v)))
 
-def _telegram_dispatcher():
+def _max_dispatcher():
     """
-    Каждые TELEGRAM_BATCH_INTERVAL секунд забираем всю очередь
-    и отсылаем единым запросом.
+    Каждые MAX_BATCH_INTERVAL секунд забираем всю очередь
+    и отсылаем одним сообщением в MAX.
     """
     while True:
-        _time.sleep(TELEGRAM_BATCH_INTERVAL)
+        _time.sleep(MAX_BATCH_INTERVAL)
 
         batch = []
-        # стягиваем всё из очереди
         while True:
             try:
-                level, msg = telegram_queue.get_nowait()
+                level, msg = notify_queue.get_nowait()
                 batch.append((level, msg))
             except queue.Empty:
                 break
@@ -262,21 +302,22 @@ def _telegram_dispatcher():
         if not batch:
             continue
 
+        levels = {lvl for lvl, _ in batch}
+
+        # если хоть одна ошибка — считаем ERROR
+        if "ERROR" in levels:
+            level = "ERROR"
+        elif "WARNING" in levels:
+            level = "WARNING"
+        else:
+            level = "INFO"
+
         text = "\n".join(f"[{lvl}] {m}" for lvl, m in batch)
-        try:
-            resp = requests.post(
-                f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
-                data={
-                    "chat_id": TELEGRAM_CHAT_ID,
-                    "text": text,
-                    "parse_mode": "HTML"
-                },
-                timeout=5
-            )
-            if resp.status_code != 200:
-                logger.error(f"Telegram batch error {resp.status_code}: {resp.text}")
-        except Exception as e:
-            logger.error(f"Telegram batch exception: {e}")
+
+        ok = send_max_message(text, level=level)
+
+        if not ok:
+            logger.error("Не удалось отправить пакет сообщений в MAX")
 
 # ─────────────────────────────────────────────────────────────────────────────
 #                           Вспомогательные Modbus
@@ -635,7 +676,7 @@ def handle_feed_timers(params_dict: dict):
         return new
 
     sequence = [
-        ("A",       "expected_ec", insert_density_record,        "Время подачи A в бак",         "Подача A в бак"),
+        ("A",       "expected_ec", insert_density_record,        "Время подачи A в бак",         "Подача А в бак"),
         ("В",       "expected_ec", insert_density_record,        "Время подачи В в бак",         "Подача В в бак"),
         ("кислоты", "expected_ph", insert_buffer_capacity_record,"Время подачи кислоты в бак", "Подача кислоты в бак"),
     ]
@@ -909,12 +950,14 @@ def poll_parameters():
 # ─────────────────────────────────────────────────────────────────────────────
 #                             Запуск сервиса
 # ─────────────────────────────────────────────────────────────────────────────
-# Запускаем фоновый поток для пакетной отправки Telegram–сообщений
-# _dispatcher_thread = threading.Thread(target=_telegram_dispatcher, daemon=True)
-# _dispatcher_thread.start()
+
 
 def run_sync():
     with app.app_context():
+        # Запускаем фоновый поток для пакетной отправки МАКС–сообщений
+        _dispatcher_thread = threading.Thread(target=_max_dispatcher, daemon=True)
+        _dispatcher_thread.start()
+
         last_act = session.query(func.max(Log.timestamp)).scalar()
         last_str = last_act.strftime("%Y-%m-%d %H:%M:%S") if last_act else "—"
         now_str  = datetime.now().strftime("%Y-%m-%d %H:%M:%S")

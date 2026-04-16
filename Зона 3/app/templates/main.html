@@ -5,9 +5,6 @@
 
 <div class="layout">
 
-
-  <!-- ===== ЦЕНТРАЛЬНАЯ КОЛОНКА ===== -->
-  <!-- ===== ЦЕНТРАЛЬНАЯ КОЛОНКА ===== -->
   <!-- ===== ЦЕНТРАЛЬНАЯ КОЛОНКА ===== -->
     <div class="col-center">
       <div class="stack">
@@ -31,7 +28,7 @@
                 {% elif item.register_type == "3" %}
                     <button id="{{ item.name }}"
                             class="btn dynamic-value-btn {{ item.value_class }}"
-                            onclick="openModal('{{ item.name }}')"
+                            onclick="openModal('{{ item.name }}', {{ item.min_value }}, {{ item.max_value }}, {{ item.step_value }}, '{{ item.value }}')"
                             {% if current_user.username != 'admin' %}disabled{% endif %}>
                       <span class="value-btn-name">
                         <span class="control-icon">{{ item.icon }}</span>
@@ -52,15 +49,33 @@
 
         <!-- Модалка для register_type = 3 -->
         <div id="valueModal" class="modal">
-          <div class="modal-content">
+          <div class="modal-content touch-modal">
             <span class="close" onclick="closeModal()">&times;</span>
             <h2>Изменение значения</h2>
+
             <input type="hidden" id="parameter-name">
-            <div class="form-group">
-              <label for="parameter-value">Введите новое значение</label>
-              <input type="number" id="parameter-value" class="form-control" placeholder="Введите значение" step="any">
+
+            <div class="touch-slider-wrap">
+              <div class="touch-slider-value" id="parameter-value-label">0</div>
+
+              <input type="range"
+                     id="parameter-value"
+                     class="touch-slider"
+                     min="0"
+                     max="100"
+                     step="1"
+                     value="0"
+                     oninput="syncValueLabel()">
+
+              <div class="touch-slider-actions">
+                <button type="button" class="btn touch-step-btn" onclick="changeSliderBy(-10)">-10</button>
+                <button type="button" class="btn touch-step-btn" onclick="changeSliderBy(-1)">-1</button>
+                <button type="button" class="btn touch-step-btn" onclick="changeSliderBy(1)">+1</button>
+                <button type="button" class="btn touch-step-btn" onclick="changeSliderBy(10)">+10</button>
+              </div>
             </div>
-            <button type="button" class="btn" onclick="setValue()">Записать</button>
+
+            <button type="button" class="btn touch-save-btn" onclick="setValue()">Записать</button>
           </div>
         </div>
 

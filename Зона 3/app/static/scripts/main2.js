@@ -168,10 +168,45 @@ async function setValue() {
     }
 }
 
-function openModal(parameterName) {
-    document.getElementById('parameter-name').value = parameterName;
-    document.getElementById('parameter-value').value = '';
-    document.getElementById('valueModal').style.display = 'block';
+function openModal(parameterName, minValue = 0, maxValue = 100, stepValue = 1, currentValue = 0) {
+    const nameEl = document.getElementById('parameter-name');
+    const valueEl = document.getElementById('parameter-value');
+    const valueLabelEl = document.getElementById('parameter-value-label');
+    const modalEl = document.getElementById('valueModal');
+
+    if (!nameEl || !valueEl || !valueLabelEl || !modalEl) return;
+
+    nameEl.value = parameterName;
+    valueEl.min = minValue;
+    valueEl.max = maxValue;
+    valueEl.step = stepValue;
+    valueEl.value = currentValue;
+
+    valueLabelEl.textContent = currentValue;
+    modalEl.style.display = 'block';
+}
+
+function syncValueLabel() {
+    const valueEl = document.getElementById('parameter-value');
+    const valueLabelEl = document.getElementById('parameter-value-label');
+    if (!valueEl || !valueLabelEl) return;
+    valueLabelEl.textContent = valueEl.value;
+}
+
+function changeSliderBy(delta) {
+    const valueEl = document.getElementById('parameter-value');
+    if (!valueEl) return;
+
+    const step = parseFloat(valueEl.step || '1');
+    const min = parseFloat(valueEl.min || '0');
+    const max = parseFloat(valueEl.max || '100');
+    let current = parseFloat(valueEl.value || '0');
+
+    current += delta * step;
+    current = Math.max(min, Math.min(max, current));
+
+    valueEl.value = current;
+    syncValueLabel();
 }
 
 function closeModal() {

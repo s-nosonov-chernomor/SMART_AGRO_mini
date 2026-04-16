@@ -25,6 +25,8 @@ load_dotenv()  # чтобы os.getenv видел значения из .env пр
 
 from pathlib import Path
 
+import re
+
 # === КАМЕРА: импорты ===
 
 bp = Blueprint('main', __name__)
@@ -278,12 +280,17 @@ def build_control_groups(params):
         if register_type not in ("1", "3"):
             continue
 
+        limits = _parse_acceptable_values(p.acceptable_values)
+
         groups[register_name]["items"].append({
             "name": param_name,
             "value": p.value or "0",
             "register_type": register_type,
             "icon": _ui_item_icon(param_name, register_type),
             "value_class": _ui_value_class(param_name),
+            "min_value": limits["min"],
+            "max_value": limits["max"],
+            "step_value": limits["step"],
         })
 
     # сортировка по имени
@@ -291,6 +298,32 @@ def build_control_groups(params):
         group["items"].sort(key=lambda x: x["name"].lower())
 
     return groups
+
+def _parse_acceptable_values(raw: str):
+    s = (raw or "").strip()
+
+    # по умолчанию
+    result = {"min": 0, "max": 100, "step": 1}
+
+    if not s:
+        return result
+
+    # например: "1 - 100", "10 - 6000", "0 или 1"
+    nums = re.findall(r'-?\d+(?:[.,]\d+)?', s)
+    nums = [float(x.replace(',', '.')) for x in nums]
+
+    if len(nums) >= 2:
+        result["min"] = nums[0]
+        result["max"] = nums[1]
+    elif len(nums) == 1:
+        result["min"] = 0
+        result["max"] = nums[0]
+
+    # если есть дроби — шаг 0.1, иначе 1
+    if any(float(x) != int(float(x)) for x in nums):
+        result["step"] = 0.1
+
+    return result
 
 def _ui_value_class(param_name: str) -> str:
     name = (param_name or "").lower()
