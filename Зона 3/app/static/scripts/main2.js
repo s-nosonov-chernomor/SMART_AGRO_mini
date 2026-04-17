@@ -116,9 +116,21 @@ async function updateData() {
         updateText2('UNIT_ID_PH', 'Уровень PH');
         updateText2('UNIT_ID_EC', 'Уровень EC');
 
-        updateBinaryIndicator('indicator-level-1', 'Уровень бак максимум');
-        updateBinaryIndicator('indicator-level-2', 'Уровень бак средний');
-        updateBinaryIndicator('indicator-level-3', 'Уровень бак минимум');
+        updateText2('light1', 'Освещенность д1');
+        updateText2('temp1', 'Температура д1');
+        updateText2('hidro1', 'Влажность д1');
+        updateText2('CO2_1', 'Качество воздуха д1');
+        updateText2('light2', 'Освещенность д2');
+        updateText2('temp2', 'Температура д2');
+        updateText2('hidro2', 'Влажность д2');
+        updateText2('CO2_2', 'Качество воздуха д2');
+
+        updateBinaryIndicator('indicator-level-1', 'Уровень бак максимум 6');
+        updateBinaryIndicator('indicator-level-2', 'Уровень бак средний 5');
+        updateBinaryIndicator('indicator-level-3', 'Уровень бак средний 4');
+        updateBinaryIndicator('indicator-level-4', 'Уровень бак средний 3');
+        updateBinaryIndicator('indicator-level-5', 'Уровень бак средний 2');
+        updateBinaryIndicator('indicator-level-6', 'Уровень бак минимум 1');
 
         updateBinaryIndicator('indicator-level-A2', 'Уровень А минимум');
         updateBinaryIndicator('indicator-level-B2', 'Уровень В минимум');

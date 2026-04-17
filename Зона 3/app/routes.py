@@ -209,33 +209,61 @@ def _ui_group_icon(group_name: str) -> str:
     return icons.get(group_name, "⚙️")
 
 def _ui_item_icon(param_name: str, register_type: str) -> str:
-    name = (param_name or "").lower()
+    name = (param_name or "").strip().lower()
 
-    # Сначала иконки по смыслу имени
-    if "насос" in name:
-        return "🔄"
-    if "перемеш" in name:
-        return "🌀"
-    if "режим" in name:
+    # Общие
+    if "растворный узел" in name:
+        return "🧪"
+
+    if "режим эксплуатации" in name:
         return "🛠️"
+
+    if name == "насос" or ("насос" in name and "промыв" not in name):
+        return "🔄"
+
+    if "перемешивание" in name:
+        return "🌀"
+
+    if "чистая вода" in name:
+        return "🚰"
+
+    if "дренаж" in name:
+        return "🫧"
+
+    if "прямая промывка" in name:
+        return "➡️"
+
+    if "обратная промывка" in name:
+        return "⬅️"
+
+    # Подача воды
+    if "подача воды" in name:
+        return "🚿"
+
+    # Свет — вкл/выкл по линиям
+    if name.startswith("свет линия"):
+        return "💡"
+
+    # Уровни света
+    if "уровень красного света" in name:
+        return "🔴"
+
+    if "уровень белого света" in name:
+        return "⚪"
+
+    # Общие запасные правила
     if "свет" in name:
         return "💡"
-    if "яркость" in name:
-        return "🌗"
-    if "канал" in name:
-        return "🔌"
-    if "полка" in name or "стеллаж" in name:
-        return "🚿"
-    if "охлаждение" in name:
-        return "❄️"
-    if "увлажн" in name:
-        return "💨"
 
-    # Потом fallback по типу регистра
+    if "уровень" in name:
+        return "🎚️"
+
+    # Fallback по типу регистра
     if str(register_type) == "1":
         return "⏻"
+
     if str(register_type) == "3":
-        return "🔢"
+        return "🎚️"
 
     return "⚙️"
 

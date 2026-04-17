@@ -110,9 +110,12 @@
           <table class="table">
             <thead><tr><th>Уровень бака</th><th>Состояние</th></tr></thead>
             <tbody>
-              <tr><td>Верхний</td><td><div id="level-1" class="indicator-wrapper"><div id="indicator-level-1" class="status-indicator"></div></div></td></tr>
-              <tr><td>Середина</td><td><div id="level-2" class="indicator-wrapper"><div id="indicator-level-2" class="status-indicator"></div></div></td></tr>
-              <tr><td>Нижний</td><td><div id="level-3" class="indicator-wrapper"><div id="indicator-level-3" class="status-indicator"></div></div></td></tr>
+              <tr><td>6. Верхний</td><td><div id="level-1" class="indicator-wrapper"><div id="indicator-level-1" class="status-indicator"></div></div></td></tr>
+              <tr><td>5. Середина</td><td><div id="level-2" class="indicator-wrapper"><div id="indicator-level-2" class="status-indicator"></div></div></td></tr>
+              <tr><td>4. Середина</td><td><div id="level-3" class="indicator-wrapper"><div id="indicator-level-3" class="status-indicator"></div></div></td></tr>
+              <tr><td>3. Середина</td><td><div id="level-4" class="indicator-wrapper"><div id="indicator-level-4" class="status-indicator"></div></div></td></tr>
+              <tr><td>2. Середина</td><td><div id="level-5" class="indicator-wrapper"><div id="indicator-level-5" class="status-indicator"></div></div></td></tr>
+              <tr><td>1. Нижний</td><td><div id="level-6" class="indicator-wrapper"><div id="indicator-level-6" class="status-indicator"></div></div></td></tr>
             </tbody>
           </table>
 
@@ -139,6 +142,33 @@
               <tr><td>Минимум</td><td><div id="level-K2" class="indicator-wrapper"><div id="indicator-level-K2" class="status-indicator"></div></div></td></tr>
             </tbody>
           </table>
+
+        </div>
+      </div>
+      <div class="card">
+        <h2>Климат</h2>
+        <div class="param-grid">
+
+          <table class="table">
+            <thead><tr><th>Показатель</th><th>Значение</th></tr></thead>
+            <tbody>
+              <tr><td>Освещенность 1</td><td id="light1">{{ parameters_dict['Освещенность д1'] }}</td></tr>
+              <tr><td>Температура 1</td><td id="temp1">{{ parameters_dict['Температура д1'] }}</td></tr>
+              <tr><td>Влажность 1</td><td id="hidro1">{{ parameters_dict['Влажность д1'] }}</td></tr>
+              <tr><td>Воздух 1</td><td id="CO2_1">{{ parameters_dict['Качество воздуха д1'] }}</td></tr>
+            </tbody>
+          </table>
+          <table class="table">
+            <thead><tr><th>Показатель</th><th>Значение</th></tr></thead>
+            <tbody>
+              <tr><td>Освещенность 2</td><td id="light2">{{ parameters_dict['Освещенность д2'] }}</td></tr>
+              <tr><td>Температура 2</td><td id="temp2">{{ parameters_dict['Температура д2'] }}</td></tr>
+              <tr><td>Влажность 2</td><td id="hidro2">{{ parameters_dict['Влажность д2'] }}</td></tr>
+              <tr><td>Воздух 2</td><td id="CO2_2">{{ parameters_dict['Качество воздуха д2'] }}</td></tr>
+            </tbody>
+          </table>
+
+
 
         </div>
       </div>
